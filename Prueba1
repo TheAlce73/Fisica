@@ -1,0 +1,922 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Justificación EV\n"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Ejercicio Calentamiento\n",
+        "\n",
+        "Para demostrar la equivalencia de la relación matemática de $$m= {y-y_1\\over x_1 - x_2} \\  \\  \\ y \\  \\  \\ b = {x_1y_2 - x_2y_1\\over x_1 - x_2}$$\n",
+        "Demuestra la equivalencia de la relación matemática anterior, es decir, que: $${x-x_1\\over x_1 - x_2} = {y-y_1\\over y_2 - y_1} \\ es \\ equivalente \\ a \\ y=mx+b$$\n",
+        "El primer paso sera despejar y, quedando de la siguiente manera:$$y-y_1 = {(y_2-y_1){(x-x_1)\\over x_2-x_1}}$$\n",
+        "Lo ordenamos e intentamos resolver lo que se pueda, quedando de la siguiente manera: $$y={(y_2-y_1)\\over (x_2 -x_1)}{x}-{(y_2-y_1)x_1  \\over (x_2 - x_1)}+y_1$$\n",
+        "Podemos ver que el primer termino es lo mismo que m y si ordenamos el segundo termino podemos ver es igual que b, siendo de esta manera que se forma la recta $$y=m*x+b$$\n"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "jupyter nbconvert Laboratorio1.ipynb --to html"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Ejercicio 1 Tabla de Colores\n",
+        "\n",
+        "|Color|Longitud de Onda (nm)   | Frecuencia (Hz)  |\n",
+        "|---|---|---|---|---|\n",
+        "|Rojo| 714|0.5|\n",
+        "|Anaranjado|620|0.55|\n",
+        "|Amarillo|577|0.59|\n",
+        "|Verde|532|0.6|\n",
+        "|Cian|497|0.65|\n",
+        "|Añil|450|0.68|\n",
+        "|Violeta|400|0.75|\n",
+        "\n",
+        "//Manu Relacionar Esta tabla con velocidad luz\n"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Añade Comprabacion Ek MANU!!!!!!!!!\n",
+        "$$\\alpha$$"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# Toma de medidas con el applet del efecto Fotoeléctrico"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Metal Zinc"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "//Tabla Valores Sodio\n",
+        "var longitudes_de_onda_medidasZn = [125,150,200,250].map(x => x*1e-9);  // para pasar a metros\n",
+        "var voltajes_medidosZn = [-5.6,-4,-2,-0.6];  // en voltios (voltaje de frenado)\n",
+        "\n",
+        "inversa_de_longitudes_de_ondaZn = longitudes_de_onda_medidasZn.map(lambda => 1/lambda );  \n",
+        "var datos_a_ajustarZn = voltajes_medidosZn.reduce((tuplas_longitud_onda_voltajeZn, b, i) => {\n",
+        "    tuplas_longitud_onda_voltajeZn.push([inversa_de_longitudes_de_ondaZn[i], b]);\n",
+        "  return tuplas_longitud_onda_voltajeZn;\n",
+        "}, []);\n",
+        "//console.log(datos_a_ajustarZn); // Verás que son tuplas de valores 1/lambda y voltajes\n",
+        "var regression = require('./regression.js');\n",
+        "var result = regression.linear(datos_a_ajustarZn, { precision: 15 });\n",
+        "var m = result.equation[0];  // pendiente\n",
+        "var b = result.equation[1];  // ordenada en origen\n",
+        "console.log('la pendiente es = ' + m + ' y la ordenada es = ' + b);\n",
+        "//console.log('y='+m+'*x+'+b);\n",
+        "\n",
+        "\n"
+      ],
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "la pendiente es = -0.000001240707965 y la ordenada es = 4.290855459583333\n"
+          ]
+        }
+      ],
+      "execution_count": 4,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T20:14:20.871Z",
+          "iopub.execute_input": "2020-11-29T20:14:20.879Z",
+          "iopub.status.idle": "2020-11-29T20:14:20.894Z",
+          "shell.execute_reply": "2020-11-29T20:14:20.910Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Formula recta del Zinc\n",
+        "$$y = {-0.000001240707965x+4.290855459583333} $$"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "function Plotly(data, layout, $$) {\n",
+        "    $$ = $$ || global.$$;\n",
+        "    $$.mime({ \"application/vnd.plotly.v1+json\": { data: data, layout: layout } });\n",
+        "}\n",
+        "\n",
+        "voltajes_de_frenado_calculadosZn = inversa_de_longitudes_de_ondaZn.map(inversa_lambda => inversa_lambda * m + b);\n",
+        "\n",
+        "datos = [\n",
+        "  { x: inversa_de_longitudes_de_ondaZn, y: voltajes_medidosZn, name: 'Datos experimentales' }, \n",
+        "  { x: inversa_de_longitudes_de_ondaZn, y: voltajes_de_frenado_calculadosZn, name: 'Datos calculados tras ajuste' }\n",
+        "];\n",
+        "var layout = {\n",
+        "  title: 'Tabla Voltaje y Inversa longitud de onda Del Zinc',\n",
+        "  xaxis: { title: 'x Inversa de la longitud de onda(1/m) ',\n",
+        "    titlefont: { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  },\n",
+        "  yaxis: {\n",
+        "    title: 'y Voltaje(en V)', titlefont: {\n",
+        "      family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  }\n",
+        "};\n",
+        "Plotly(datos, layout);"
+      ],
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "execution_count": 9,
+          "data": {
+            "application/vnd.plotly.v1+json": {
+              "data": [
+                {
+                  "x": [
+                    7999999.999999999,
+                    6666666.666666666,
+                    5000000,
+                    3999999.9999999995
+                  ],
+                  "y": [
+                    -5.6,
+                    -4,
+                    -2,
+                    -0.6
+                  ],
+                  "name": "Datos experimentales"
+                },
+                {
+                  "x": [
+                    7999999.999999999,
+                    6666666.666666666,
+                    5000000,
+                    3999999.9999999995
+                  ],
+                  "y": [
+                    -7.130142448249998,
+                    -5.617663816249999,
+                    -3.7270655262499996,
+                    -2.5927065522499992
+                  ],
+                  "name": "Datos calculados tras ajuste"
+                }
+              ],
+              "layout": {
+                "title": "Tabla Voltaje y Inversa longitud de onda Del Zinc",
+                "xaxis": {
+                  "title": "x Inversa de la longitud de onda(1/m) ",
+                  "titlefont": {
+                    "family": "Courier New, monospace",
+                    "size": 18,
+                    "color": "#7f7f7f"
+                  }
+                },
+                "yaxis": {
+                  "title": "y Voltaje(en V)",
+                  "titlefont": {
+                    "family": "Courier New, monospace",
+                    "size": 18,
+                    "color": "#7f7f7f"
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 9,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T20:24:31.066Z",
+          "iopub.execute_input": "2020-11-29T20:24:31.072Z",
+          "iopub.status.idle": "2020-11-29T20:24:31.173Z",
+          "shell.execute_reply": "2020-11-29T20:24:31.182Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Metal Sodio"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "//Tabla Valores Sodio\n",
+        "var longitudes_de_onda_medidas = [300, 350, 400, 450].map(x => x*1e-9);  // para pasar a metros\n",
+        "var voltajes_medidos = [-1.8, -1.4, -0.8, -0.6];  // en voltios (voltaje de frenado)\n",
+        "\n",
+        "inversa_de_longitudes_de_onda = longitudes_de_onda_medidas.map(lambda => 1/lambda );  \n",
+        "var datos_a_ajustar = voltajes_medidos.reduce((tuplas_longitud_onda_voltaje, b, i) => {\n",
+        "    tuplas_longitud_onda_voltaje.push([inversa_de_longitudes_de_onda[i], b]);\n",
+        "  return tuplas_longitud_onda_voltaje;\n",
+        "}, []);\n",
+        "//console.log(datos_a_ajustar); // Verás que son tuplas de valores 1/lambda y voltajes\n",
+        "var regression = require('./regression.js');\n",
+        "var result = regression.linear(datos_a_ajustar, { precision: 15 });\n",
+        "var m = result.equation[0];  // pendiente\n",
+        "var b = result.equation[1];  // ordenada en origen\n",
+        "console.log('la pendiente es = ' + m + ' y la ordenada es = ' + b);\n",
+        "\n",
+        "//console.log('y='+m+'*x+'+b);\n"
+      ],
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "la pendiente es = -0.000001134358974 y la ordenada es = 1.94472934375\n"
+          ]
+        }
+      ],
+      "execution_count": 6,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "shell.execute_reply": "2020-11-29T20:15:41.379Z",
+          "iopub.status.busy": "2020-11-29T20:15:41.350Z",
+          "iopub.execute_input": "2020-11-29T20:15:41.356Z",
+          "iopub.status.idle": "2020-11-29T20:15:41.371Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Formula recta del Sodio\n",
+        "$$y = {-0.000001134358974x+1.94472934375} $$"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "function Plotly(data, layout, $$) {\n",
+        "    $$ = $$ || global.$$;\n",
+        "    $$.mime({ \"application/vnd.plotly.v1+json\": { data: data, layout: layout } });\n",
+        "}\n",
+        "\n",
+        "voltajes_de_frenado_calculados = inversa_de_longitudes_de_onda.map(inversa_lambda => inversa_lambda * m + b);\n",
+        "\n",
+        "datos = [\n",
+        "  { x: inversa_de_longitudes_de_onda, y: voltajes_medidos, name: 'Datos experimentales' }, \n",
+        "  { x: inversa_de_longitudes_de_onda, y: voltajes_de_frenado_calculados, name: 'Datos calculados tras ajuste' }\n",
+        "];\n",
+        "var layout = {\n",
+        "  title: 'Tabla Voltaje y Inversa longitud de onda Del Sodio',\n",
+        "  xaxis: { title: 'x Inversa de la longitud de onda(1/m) ',\n",
+        "    titlefont: { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  },\n",
+        "  yaxis: {\n",
+        "    title: 'y Voltaje(en V)', titlefont: {\n",
+        "      family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  }\n",
+        "};\n",
+        "Plotly(datos, layout);"
+      ],
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ReferenceError",
+          "evalue": "inversa_de_longitudes_de_onda is not defined",
+          "traceback": [
+            "evalmachine.<anonymous>:6",
+            "voltajes_de_frenado_calculados = inversa_de_longitudes_de_onda.map(inversa_lambda => inversa_lambda * m + b);",
+            "^",
+            "",
+            "ReferenceError: inversa_de_longitudes_de_onda is not defined",
+            "    at evalmachine.<anonymous>:6:1",
+            "    at Script.runInThisContext (vm.js:126:20)",
+            "    at Object.runInThisContext (vm.js:316:38)",
+            "    at run ([eval]:1054:15)",
+            "    at onRunRequest ([eval]:888:18)",
+            "    at onMessage ([eval]:848:13)",
+            "    at process.emit (events.js:203:13)",
+            "    at emit (internal/child_process.js:876:12)",
+            "    at processTicksAndRejections (internal/process/task_queues.js:77:11)"
+          ]
+        }
+      ],
+      "execution_count": 3,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T19:43:31.408Z",
+          "iopub.execute_input": "2020-11-29T19:43:31.417Z",
+          "iopub.status.idle": "2020-11-29T19:43:31.434Z",
+          "shell.execute_reply": "2020-11-29T19:43:31.441Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Metal Cobre"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "//Tabla Valores Cobre\n",
+        "var longitudes_de_onda_medidasCu = [200, 150, 125, 100].map(x => x*1e-9);  // para pasar a metros\n",
+        "var voltajes_medidosCu = [-1.6, -3.6, -5.4, -7.8];  // en voltios (voltaje de frenado)\n",
+        "\n",
+        "inversa_de_longitudes_de_ondaCu = longitudes_de_onda_medidasCu.map(lambda => 1/lambda );  \n",
+        "var datos_a_ajustarCu = voltajes_medidosCu.reduce((tuplas_longitud_onda_voltajeCu, b, i) => {\n",
+        "    tuplas_longitud_onda_voltajeCu.push([inversa_de_longitudes_de_ondaCu[i], b]);\n",
+        "  return tuplas_longitud_onda_voltajeCu;\n",
+        "}, []);\n",
+        "//console.log(datos_a_ajustarCu); // Verás que son tuplas de valores 1/lambda y voltajes\n",
+        "var regression = require('./regression.js');\n",
+        "var result = regression.linear(datos_a_ajustarCu, { precision: 15 });\n",
+        "var m = result.equation[0];  // pendiente\n",
+        "var b = result.equation[1];  // ordenada en origen\n",
+        "console.log('la pendiente es = ' + m + ' y la ordenada es = ' + b);\n",
+        "//console.log('y='+m+'*x+'+b);"
+      ],
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "la pendiente es = -0.000001247204969 y la ordenada es = 4.650103520083332\n"
+          ]
+        }
+      ],
+      "execution_count": 57,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-28T12:11:56.873Z",
+          "iopub.execute_input": "2020-11-28T12:11:56.878Z",
+          "iopub.status.idle": "2020-11-28T12:11:56.887Z",
+          "shell.execute_reply": "2020-11-28T12:11:56.656Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Formula recta del Cobre\n",
+        "$$y = {-0.000001247204969x+4.650103520083332} $$"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "function Plotly(data, layout, $$) {\n",
+        "    $$ = $$ || global.$$;\n",
+        "    $$.mime({ \"application/vnd.plotly.v1+json\": { data: data, layout: layout } });\n",
+        "}\n",
+        "\n",
+        "voltajes_de_frenado_calculadosCu = inversa_de_longitudes_de_ondaCu.map(inversa_lambda => inversa_lambda * m + b);\n",
+        "\n",
+        "datos = [\n",
+        "  { x: inversa_de_longitudes_de_ondaCu, y: voltajes_medidosCu, name: 'Datos experimentales' }, \n",
+        "  { x: inversa_de_longitudes_de_ondaCu, y: voltajes_de_frenado_calculadosCu, name: 'Datos calculados tras ajuste' }\n",
+        "];\n",
+        "var layout = {\n",
+        "  title: 'Tabla Voltaje y Inversa longitud de onda Del Cobre',\n",
+        "  xaxis: { title: 'x Inversa de la longitud de onda(1/m) ',\n",
+        "    titlefont: { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  },\n",
+        "  yaxis: {\n",
+        "    title: 'y Voltaje(en V)', titlefont: {\n",
+        "      family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  }\n",
+        "};\n",
+        "Plotly(datos, layout);"
+      ],
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ReferenceError",
+          "evalue": "inversa_de_longitudes_de_ondaCu is not defined",
+          "traceback": [
+            "evalmachine.<anonymous>:6",
+            "voltajes_de_frenado_calculadosCu = inversa_de_longitudes_de_ondaCu.map(inversa_lambda => inversa_lambda * m + b);",
+            "^",
+            "",
+            "ReferenceError: inversa_de_longitudes_de_ondaCu is not defined",
+            "    at evalmachine.<anonymous>:6:1",
+            "    at Script.runInThisContext (vm.js:126:20)",
+            "    at Object.runInThisContext (vm.js:316:38)",
+            "    at run ([eval]:1054:15)",
+            "    at onRunRequest ([eval]:888:18)",
+            "    at onMessage ([eval]:848:13)",
+            "    at process.emit (events.js:203:13)",
+            "    at emit (internal/child_process.js:876:12)",
+            "    at processTicksAndRejections (internal/process/task_queues.js:77:11)"
+          ]
+        }
+      ],
+      "execution_count": 8,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T20:24:13.138Z",
+          "iopub.execute_input": "2020-11-29T20:24:13.147Z",
+          "iopub.status.idle": "2020-11-29T20:24:13.164Z",
+          "shell.execute_reply": "2020-11-29T20:24:13.171Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Metal Platino"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "//Tabla Valores Platino\n",
+        "var longitudes_de_onda_medidasPt = [175, 150, 125, 100].map(x => x*1e-9);  // para pasar a metros\n",
+        "var voltajes_medidosPt = [-0.6, -2, -3.6, -6.2];  // en voltios (voltaje de frenado)\n",
+        "\n",
+        "inversa_de_longitudes_de_ondaPt = longitudes_de_onda_medidasPt.map(lambda => 1/lambda );  \n",
+        "var datos_a_ajustarPt = voltajes_medidosPt.reduce((tuplas_longitud_onda_voltajePt, b, i) => {\n",
+        "    tuplas_longitud_onda_voltajePt.push([inversa_de_longitudes_de_ondaPt[i], b]);\n",
+        "  return tuplas_longitud_onda_voltajePt;\n",
+        "}, []);\n",
+        "//console.log(datos_a_ajustarCu); // Verás que son tuplas de valores 1/lambda y voltajes\n",
+        "var regression = require('./regression.js');\n",
+        "var result = regression.linear(datos_a_ajustarPt, { precision: 15 });\n",
+        "var m = result.equation[0];  // pendiente\n",
+        "var b = result.equation[1];  // ordenada en origen\n",
+        "console.log('la pendiente es = ' + m + ' y la ordenada es = ' + b);\n",
+        "//console.log('y='+m+'*x+'+b);"
+      ],
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "la pendiente es = -0.000001293228139 y la ordenada es = 6.722375627166667\n"
+          ]
+        }
+      ],
+      "execution_count": 59,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-28T12:11:56.944Z",
+          "iopub.execute_input": "2020-11-28T12:11:56.950Z",
+          "iopub.status.idle": "2020-11-28T12:11:56.957Z",
+          "shell.execute_reply": "2020-11-28T12:11:56.668Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Formula recta del Platino\n",
+        "$$y = {-0.000001293228139x+6.722375627166667} $$"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "function Plotly(data, layout, $$) {\n",
+        "    $$ = $$ || global.$$;\n",
+        "    $$.mime({ \"application/vnd.plotly.v1+json\": { data: data, layout: layout } });\n",
+        "}\n",
+        "\n",
+        "voltajes_de_frenado_calculadosPt = inversa_de_longitudes_de_ondaPt.map(inversa_lambda => inversa_lambda * m + b);\n",
+        "\n",
+        "datos = [\n",
+        "  { x: inversa_de_longitudes_de_ondaPt, y: voltajes_medidosPt, name: 'Datos experimentales' }, \n",
+        "  { x: inversa_de_longitudes_de_ondaPt, y: voltajes_de_frenado_calculadosPt, name: 'Datos calculados tras ajuste' }\n",
+        "];\n",
+        "var layout = {\n",
+        "  title: 'Tabla Voltaje y Inversa longitud de onda Del Cobre',\n",
+        "  xaxis: { title: 'x Inversa de la longitud de onda(1/m) ',\n",
+        "    titlefont: { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  },\n",
+        "  yaxis: {\n",
+        "    title: 'y Voltaje(en V)', titlefont: {\n",
+        "      family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  }\n",
+        "};\n",
+        "Plotly(datos, layout);\n"
+      ],
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ReferenceError",
+          "evalue": "inversa_de_longitudes_de_ondaPt is not defined",
+          "traceback": [
+            "evalmachine.<anonymous>:6",
+            "voltajes_de_frenado_calculadosPt = inversa_de_longitudes_de_ondaPt.map(inversa_lambda => inversa_lambda * m + b);",
+            "^",
+            "",
+            "ReferenceError: inversa_de_longitudes_de_ondaPt is not defined",
+            "    at evalmachine.<anonymous>:6:1",
+            "    at Script.runInThisContext (vm.js:126:20)",
+            "    at Object.runInThisContext (vm.js:316:38)",
+            "    at run ([eval]:1054:15)",
+            "    at onRunRequest ([eval]:888:18)",
+            "    at onMessage ([eval]:848:13)",
+            "    at process.emit (events.js:203:13)",
+            "    at emit (internal/child_process.js:876:12)",
+            "    at processTicksAndRejections (internal/process/task_queues.js:77:11)"
+          ]
+        }
+      ],
+      "execution_count": 7,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T20:16:47.897Z",
+          "iopub.execute_input": "2020-11-29T20:16:47.903Z",
+          "iopub.status.idle": "2020-11-29T20:16:47.920Z",
+          "shell.execute_reply": "2020-11-29T20:16:47.927Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Ejercicio Premium\n"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "function Plotly(data, layout, $$) {\n",
+        "    $$ = $$ || global.$$;\n",
+        "    $$.mime({ \"application/vnd.plotly.v1+json\": { data: data, layout: layout } });\n",
+        "}\n",
+        "\n",
+        "var Intensidad=[100, 80, 60, 40,20,0];\n",
+        "var Corriente=[0.882,0.706,0.529,0.353,0.176,0]\n",
+        "\n",
+        "datos = [\n",
+        "  { x: Intensidad, y: Corriente, name: 'Datos experimentales' }, \n",
+        "];\n",
+        "var layout = {\n",
+        "  title: 'Tabla Voltaje y Inversa longitud de onda Del Zinc',\n",
+        "  xaxis: { title: 'x Inversa de la longitud de onda(1/m) ',\n",
+        "    titlefont: { family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  },\n",
+        "  yaxis: {\n",
+        "    title: 'y Voltaje(en V)', titlefont: {\n",
+        "      family: 'Courier New, monospace', size: 18, color: '#7f7f7f' }\n",
+        "  }\n",
+        "};\n",
+        "Plotly(datos, layout);"
+      ],
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "execution_count": 10,
+          "data": {
+            "application/vnd.plotly.v1+json": {
+              "data": [
+                {
+                  "x": [
+                    100,
+                    80,
+                    60,
+                    40,
+                    20,
+                    0
+                  ],
+                  "y": [
+                    0.882,
+                    0.706,
+                    0.529,
+                    0.353,
+                    0.176,
+                    0
+                  ],
+                  "name": "Datos experimentales"
+                }
+              ],
+              "layout": {
+                "title": "Tabla Voltaje y Inversa longitud de onda Del Zinc",
+                "xaxis": {
+                  "title": "x Inversa de la longitud de onda(1/m) ",
+                  "titlefont": {
+                    "family": "Courier New, monospace",
+                    "size": 18,
+                    "color": "#7f7f7f"
+                  }
+                },
+                "yaxis": {
+                  "title": "y Voltaje(en V)",
+                  "titlefont": {
+                    "family": "Courier New, monospace",
+                    "size": 18,
+                    "color": "#7f7f7f"
+                  }
+                }
+              }
+            }
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 10,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "iopub.status.busy": "2020-11-29T20:31:49.707Z",
+          "iopub.execute_input": "2020-11-29T20:31:49.713Z",
+          "iopub.status.idle": "2020-11-29T20:31:49.785Z",
+          "shell.execute_reply": "2020-11-29T20:31:49.795Z"
+        }
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## Particula En Un Campo Magnético"
+      ],
+      "metadata": {
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        }
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "var math = require('./math.js');\n",
+        "B = math.unit(3250, 'gauss')\n",
+        "B.to('T')\n",
+        "q = math.elementaryCharge\n",
+        "m = math.electronMass\n",
+        "E = math.unit(72090E-19, 'J')\n",
+        "E.toJSON()\n",
+        "v = math.sqrt(math.multiply(2, math.divide(E,m)))\n",
+        "x = math.divide(math.multiply(m, math.pow(v, 2)), math.multiply(q, v, B))\n",
+        "x.toString()"
+      ],
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "execution_count": 69,
+          "data": {
+            "text/plain": "'0.002200914915865607 m'"
+          },
+          "metadata": {}
+        }
+      ],
+      "execution_count": 69,
+      "metadata": {
+        "collapsed": true,
+        "jupyter": {
+          "source_hidden": false,
+          "outputs_hidden": false
+        },
+        "nteract": {
+          "transient": {
+            "deleting": false
+          }
+        },
+        "execution": {
+          "shell.execute_reply": "2020-11-29T01:55:10.217Z",
+          "iopub.status.busy": "2020-11-29T01:55:10.196Z",
+          "iopub.execute_input": "2020-11-29T01:55:10.200Z",
+          "iopub.status.idle": "2020-11-29T01:55:10.211Z"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "kernel_info": {
+      "name": "node_nteract"
+    },
+    "language_info": {
+      "name": "javascript",
+      "version": "12.8.1",
+      "mimetype": "application/javascript",
+      "file_extension": ".js"
+    },
+    "kernelspec": {
+      "argv": [
+        "A:\\Universidad\\Fundamentos De Programación\\Programas\\nteract\\nteract.exe",
+        "A:\\Universidad\\Fundamentos De Programación\\Programas\\nteract\\resources\\app.asar\\node_modules\\ijavascript\\lib\\kernel.js",
+        "{connection_file}",
+        "--protocol=5.0",
+        "--hide-undefined"
+      ],
+      "display_name": "Node.js (nteract)",
+      "env": {
+        "ELECTRON_RUN_AS_NODE": "1",
+        "NODE_PATH": "A:\\Universidad\\Fundamentos De Programación\\Programas\\nteract\\resources\\app.asar\\node_modules"
+      },
+      "language": "javascript",
+      "name": "node_nteract"
+    },
+    "nteract": {
+      "version": "0.26.0"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
